@@ -20,14 +20,14 @@
     - name: Disable dhcp
       lineinfile:
         path: /etc/netplan/50-cloud-init.yaml
-        regexp: '^(.*)(dhcp4: true)$'
+        regexp: '^(\s*)(dhcp4: true)$'
         line: '\1# \2'
         backrefs: yes
 
     - name: Enable static ip address
       blockinfile:
         path: /etc/netplan/50-cloud-init.yaml
-        insertafter: '^.*# dhcp4: true$'
+        insertafter: '^\s*# dhcp4: true$'
         block: |
           #
                       #
