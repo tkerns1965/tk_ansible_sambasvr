@@ -4,4 +4,5 @@
     removes=/var/run/reboot-required
 
 - name: Apply netplan
+  become: yes
   command: netplan apply
