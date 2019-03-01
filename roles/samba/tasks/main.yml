@@ -37,6 +37,7 @@
                           addresses: [192.168.1.25]
                           search: [cwh.local]
           #
+      notify: Apply netplan
 
     - name: Turn off MOTD news service
       lineinfile:
@@ -50,11 +51,6 @@
         src: motd
         dest: /etc/motd
 
-    # - name: Update apt cache
-    #   apt:
-    #     force_apt_get: yes
-    #     update_cache: yes
-
     - name: Upgrade all packages
       apt:
         force_apt_get: yes
@@ -67,4 +63,4 @@
         name="{{ item }}"
         state=latest
       with_items: "{{ sambasvr_packages }}"
-      notify: reboot system
+      notify: Reboot system
