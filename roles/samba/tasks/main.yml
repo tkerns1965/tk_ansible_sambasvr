@@ -17,6 +17,20 @@
       timezone:
         name: "{{ sambasvr_timezone }}"
 
+    - name: Disable dhcp
+      lineinfile:
+        path: /etc/netplan/50-cloud-init.yaml
+        regexp: '^(.*)(dhcp4: true)$'
+        line: '\1# \2'
+        backrefs: yes
+
+    # - name: Set static ip address
+    #   blockinfile:
+    #     path: /etc/netplan/50-cloud-init.yaml
+    #     regexp: '^(?P<a>ENABLED=)1$'
+    #     line: '\g<a>0'
+    #     backrefs: yes
+
     - name: Turn off MOTD news service
       lineinfile:
         path: /etc/default/motd-news
