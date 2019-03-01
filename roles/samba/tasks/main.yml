@@ -46,3 +46,4 @@
         name="{{ item }}"
         state=latest
       with_items: "{{ sambasvr_packages }}"
+      notify: reboot system
