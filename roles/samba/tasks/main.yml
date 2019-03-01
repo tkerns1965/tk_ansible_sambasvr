@@ -1,3 +1,47 @@
 ---
-- name: 
-  xyz: 
+- name: Execute block as sudo
+  become: yes
+  block:
+    - name: Allow change of hostname
+      lineinfile:
+        path: /etc/cloud/cloud.cfg
+        regexp: '^(?P<a>preserve_hostname: )false$'
+        line: '\g<a>true'
+        backrefs: yes
+
+    - name: "Set hostname to {{ sambasvr_hostname }}"
+      hostname:
+        name: "{{ sambasvr_hostname }}"
+
+    - name: "Set timezone to {{ sambasvr_timezone }}"
+      timezone:
+        name: "{{ sambasvr_timezone }}"
+
+    - name: Turn off MOTD news service
+      lineinfile:
+        path: /etc/default/motd-news
+        regexp: '^(?P<a>ENABLED=)1$'
+        line: '\g<a>0'
+        backrefs: yes
+
+    - name: Set login banner
+      copy:
+        src: ./templates/general/motd.template
+        dest: /etc/motd
+
+    - name: Update apt cache
+      apt:
+        force_apt_get: yes
+        update_cache: yes
+
+    - name: Upgrade all packages
+      apt:
+        force_apt_get: yes
+        name: "*"
+        state: latest
+
+    - name: Install packages
+      apt:
+        name="{{ item }}"
+        state=latest
+      with_items: "{{ vncsvr_packages }}"
