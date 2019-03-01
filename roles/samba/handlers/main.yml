@@ -2,3 +2,6 @@
 - name: Reboot system
   command: shutdown -r now 'Rebooting to complete system upgrade'
     removes=/var/run/reboot-required
+
+- name: Apply netplan
+  command: netplan apply
