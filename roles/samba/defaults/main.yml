@@ -1,0 +1,14 @@
+---
+sambasvr_hostname: sambasvr01
+
+sambasvr_timezone: US/Eastern
+
+sambasvr_packages:
+  - adcli
+  - krb5-user
+  - libnss-sss
+  - libpam-sss
+  - realmd
+  - samba-common-bin
+  - sssd
+  - sssd-tools
