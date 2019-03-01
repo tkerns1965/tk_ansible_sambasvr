@@ -1,5 +1,6 @@
 ---
 - name: Reboot system
+  become: yes
   command: shutdown -r now 'Rebooting to complete system upgrade'
     removes=/var/run/reboot-required
 
