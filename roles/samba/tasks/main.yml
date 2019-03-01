@@ -29,7 +29,7 @@
         path: /etc/netplan/50-cloud-init.yaml
         insertafter: '^.*# dhcp4: true$'
         block: |
-                      #
+          #
                       #
 
     - name: Turn off MOTD news service
