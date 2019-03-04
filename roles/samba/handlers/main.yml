@@ -9,5 +9,11 @@
   command: netplan apply
 
 - name: Sync time
-  become: yes
-  command: timedatectl set-ntp true && systemctl restart systemd-timesyncd.service && timedatectl --adjust-system-clock
+  block:
+    - name: Set NTP sync to true
+      command: timedatectl set-ntp true
+    - name: Restart timesyncd service
+      become: yes
+      command: systemctl restart systemd-timesyncd.service
+    - name: Force NTP sync
+      command: timedatectl --adjust-system-clock
