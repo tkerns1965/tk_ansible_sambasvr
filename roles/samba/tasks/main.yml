@@ -83,7 +83,7 @@
         insertafter: '^\s*# default_realm = ATHENA.MIT.EDU$'
         block: |
           #
-                  default_realm = "{{ krb5_default_realm }}"
+                  default_realm = {{ krb5_default_realm }}
                   dns_lookup_kdc = true
                   dns_lookup_realm = true
           #
