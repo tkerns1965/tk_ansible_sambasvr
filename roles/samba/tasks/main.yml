@@ -1,4 +1,7 @@
 ---
+- name: Include private variables
+  include_vars: private.yml
+
 - name: Execute block as sudo
   become: yes
   block:
