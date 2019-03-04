@@ -5,3 +5,5 @@ netplan_nsaddr: 192.168.1.xxx
 netplan_nssearch: example.com
 
 krb5_default_realm: EXAMPLE.COM
+
+timesyncd_ntpsvr: dc.example.com
