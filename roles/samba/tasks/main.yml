@@ -17,6 +17,18 @@
       timezone:
         name: "{{ sambasvr_timezone }}"
 
+    - name: Turn off MOTD news service
+      lineinfile:
+        path: /etc/default/motd-news
+        regexp: '^(?P<a>ENABLED=)1$'
+        line: '\g<a>0'
+        backrefs: yes
+
+    - name: Set login banner
+      copy:
+        src: motd
+        dest: /etc/motd
+
     - name: Disable dhcp
       lineinfile:
         path: /etc/netplan/50-cloud-init.yaml
@@ -31,25 +43,15 @@
         block: |
           #
                       addresses:
-                          - 192.168.1.20/24
-                      gateway4: 192.168.1.1
+                          - {{ netplan_ipaddr }}
+                      gateway4: {{ netplan_gateway }}
                       nameservers:
-                          addresses: [192.168.1.25]
-                          search: [cwh.local]
+                          addresses:
+                            - {{ netplan_nsaddr }}
+                          search:
+                            - {{ netplan_nssearch }}
           #
       notify: Apply netplan
-
-    - name: Turn off MOTD news service
-      lineinfile:
-        path: /etc/default/motd-news
-        regexp: '^(?P<a>ENABLED=)1$'
-        line: '\g<a>0'
-        backrefs: yes
-
-    - name: Set login banner
-      copy:
-        src: motd
-        dest: /etc/motd
 
     - name: Upgrade all packages
       apt:
