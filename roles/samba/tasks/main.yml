@@ -108,6 +108,7 @@
 
     - name: Update PAM configuration
       pamd:
+        backup: yes
         name: common-session
         type: session
         control: optional
