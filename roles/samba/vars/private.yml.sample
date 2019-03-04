@@ -1,1 +1,7 @@
 ---
+netplan_ipaddr: 192.168.1.xxx/24
+netplan_gateway: 192.168.1.xxx
+netplan_nsaddr: 192.168.1.xxx
+netplan_nssearch: example.com
+
+krb5_default_realm: EXAMPLE.COM
