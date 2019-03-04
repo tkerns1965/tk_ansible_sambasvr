@@ -8,3 +8,11 @@ For use on bare Ubuntu 18.04.2 Live Server
 4. cp roles/samba/vars/private.yml.sample roles/samba/vars/private.yml
 5. nano roles/samba/vars/private.yml
 6. ansible-playbook -K samba.yml
+
+sudo apt update
+sudo apt upgrade
+sudo apt install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt update
+sudo apt install ansible
+ansible --version
