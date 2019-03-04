@@ -105,3 +105,10 @@
       template:
         src: realmd.conf
         dest: /etc/realmd.conf
+
+    - name: Update PAM configuration
+      pamd:
+        name: common-session
+        type: session
+        control: optional
+        module_path: pam_mkhomedir.so
