@@ -65,9 +65,10 @@
 
     - name: Install packages
       apt:
-        name="{{ item }}"
+        # name="{{ item }}"
+        name="{{ sambasvr_packages }}"
         state=latest
-      with_items: "{{ sambasvr_packages }}"
+      # with_items: "{{ sambasvr_packages }}"
       notify: Reboot system
 
     - name: Unset kerberos default realm
