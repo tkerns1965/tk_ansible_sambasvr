@@ -100,3 +100,8 @@
         - Set NTP sync to true
         - Restart timesyncd service
         - Force NTP sync
+
+    - name: Create realmd.conf
+      template:
+        src: realmd.conf
+        dest: /etc/realmd.conf
