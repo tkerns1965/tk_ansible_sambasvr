@@ -96,4 +96,7 @@
           #
           "NTP={{ timesyncd_ntpsvr }}"
           #
-      notify: Sync time
+      notify:
+        - Set NTP sync to true
+        - Restart timesyncd service
+        - Force NTP sync
