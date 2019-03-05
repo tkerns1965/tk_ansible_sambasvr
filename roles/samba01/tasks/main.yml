@@ -62,10 +62,5 @@
         state: latest
         update_cache: yes
 
-    - name: Install packages
-      apt:
-        name="{{ sambasvr_packages }}"
-        state=latest
-
     - name: Reboot system
-      command: shutdown -r now 'Rebooting to complete system upgrade'
+      command: shutdown -r now 'Rebooting to complete system changes'
