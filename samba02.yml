@@ -1,5 +1,5 @@
 ---
-- name: Run samba role on local hosts
+- name: Run samba02 role on local hosts
   hosts: local
   roles:
     - samba02
