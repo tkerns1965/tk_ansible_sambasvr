@@ -60,3 +60,6 @@
     - name: Update PAM configuration
       command: pam-auth-update --enable mkhomedir
       when: chkpam_result.stdout != "pam_mkhomedir.so"
+
+    - name: Join the domain
+      command: realm join --verbose --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} 
