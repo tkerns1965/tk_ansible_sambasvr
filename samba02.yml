@@ -2,4 +2,4 @@
 - name: Run samba role on local hosts
   hosts: local
   roles:
-    - samba
+    - samba02
