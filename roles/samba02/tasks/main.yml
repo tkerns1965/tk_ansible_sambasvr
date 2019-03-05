@@ -36,9 +36,12 @@
           #
           "NTP={{ timesyncd_ntpsvr }}"
           #
+      register: ntpsvr_result
+      ignore_errors: True
 
     - name: Enable NTP
       command: "{{ item }}"
+      when: ntpsvr_result is succeeded
       with_items:
         - timedatectl set-ntp true
         - systemctl restart systemd-timesyncd.service
