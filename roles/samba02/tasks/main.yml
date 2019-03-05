@@ -55,6 +55,7 @@
     - name: Check PAM configuration
       command: awk '/mkhomedir/ { print $3 }' /etc/pam.d/common-session
       register: chkpam_result
+      changed_when: "chkpam_result.stdout == pam_mkhomedir.so"
 
     # - name: Update PAM configuration
     #   command: pam-auth-update --enable mkhomedir
