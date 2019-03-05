@@ -1,0 +1,110 @@
+---
+- name: Include private variables
+  include_vars: private.yml
+
+- name: Execute block as sudo
+  become: yes
+  block:
+    - name: Allow change of hostname
+      lineinfile:
+        path: /etc/cloud/cloud.cfg
+        regexp: '^(?P<a>preserve_hostname: )false$'
+        line: '\g<a>true'
+        backrefs: yes
+
+    - name: "Set hostname to {{ sambasvr_hostname }}"
+      hostname:
+        name: "{{ sambasvr_hostname }}"
+
+    - name: "Set timezone to {{ sambasvr_timezone }}"
+      timezone:
+        name: "{{ sambasvr_timezone }}"
+
+    - name: Turn off MOTD news service
+      lineinfile:
+        path: /etc/default/motd-news
+        regexp: '^(?P<a>ENABLED=)1$'
+        line: '\g<a>0'
+        backrefs: yes
+
+    - name: Set login banner
+      copy:
+        src: motd
+        dest: /etc/motd
+
+    - name: Disable dhcp
+      lineinfile:
+        path: /etc/netplan/50-cloud-init.yaml
+        regexp: '^(\s*)(dhcp4: true)$'
+        line: '\1# \2'
+        backrefs: yes
+
+    - name: Enable static ip address
+      blockinfile:
+        path: /etc/netplan/50-cloud-init.yaml
+        insertafter: '^\s*# dhcp4: true$'
+        block: |
+          #
+                      addresses:
+                          - {{ netplan_ipaddr }}
+                      gateway4: {{ netplan_gateway }}
+                      nameservers:
+                          addresses:
+                            - {{ netplan_nsaddr }}
+                          search:
+                            - {{ netplan_nssearch }}
+          #
+      notify: Apply netplan
+
+    - name: Upgrade all packages
+      apt:
+        force_apt_get: yes
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        # name="{{ item }}"
+        name="{{ sambasvr_packages }}"
+        state=latest
+      # with_items: "{{ sambasvr_packages }}"
+      notify: Reboot system
+
+    - name: Unset kerberos default realm
+      lineinfile:
+        path: /etc/krb5.conf
+        regexp: '^(\s*)(default_realm = ATHENA.MIT.EDU)$'
+        line: '\1# \2'
+        backrefs: yes
+
+    - name: Set kerberos default realm
+      blockinfile:
+        path: /etc/krb5.conf
+        insertafter: '^\s*# default_realm = ATHENA.MIT.EDU$'
+        block: |
+          #
+                  default_realm = {{ krb5_default_realm }}
+                  dns_lookup_kdc = true
+                  dns_lookup_realm = true
+          #
+    - name: Set NTP server
+      blockinfile:
+        path: /etc/systemd/timesyncd.conf
+        insertafter: '^#NTP=$'
+        block: |
+          #
+          "NTP={{ timesyncd_ntpsvr }}"
+          #
+      notify:
+        - Set NTP sync to true
+        - Restart timesyncd service
+        - Force NTP sync
+
+    - name: Create realmd.conf
+      template:
+        src: realmd.conf
+        dest: /etc/realmd.conf
+
+    - name: Update PAM configuration
+      command: pam-auth-update --enable mkhomedir
