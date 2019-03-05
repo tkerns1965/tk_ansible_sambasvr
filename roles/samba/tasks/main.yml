@@ -108,13 +108,4 @@
         dest: /etc/realmd.conf
 
     - name: Update PAM configuration
-      pamd:
-        backup: yes
-        name: common-session
-        type: session
-        control: optional
-        module_path: pam_systemd.so
-        state: after
-        new_type: session
-        new_control: optional
-        new_module_path: pam_mkhomedir.so
+      command: pam-auth-update --enable mkhomedir
