@@ -8,4 +8,5 @@ For use on bare Ubuntu 18.04.2 Live Server
 4. cd tk_ansible_sambasvr/
 5. cp roles/samba/vars/private.yml.sample roles/samba/vars/private.yml
 6. nano roles/samba/vars/private.yml
-7. ansible-playbook -K samba.yml
+7. ansible-playbook -K samba01.yml
+8. ansible-playbook -K samba02.yml
