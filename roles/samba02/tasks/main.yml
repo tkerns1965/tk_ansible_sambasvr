@@ -52,5 +52,9 @@
         src: realmd.conf
         dest: /etc/realmd.conf
 
-    - name: Update PAM configuration
-      command: pam-auth-update --enable mkhomedir
+    - name: Check PAM configuration
+      command: awk '/mkhomedir/ { print $3 }' /etc/pam.d/common-session
+      register: chkpam_result
+
+    # - name: Update PAM configuration
+    #   command: pam-auth-update --enable mkhomedir
