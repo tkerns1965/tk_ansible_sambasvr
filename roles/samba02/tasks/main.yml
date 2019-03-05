@@ -5,6 +5,11 @@
 - name: Execute block as sudo
   become: yes
   block:
+    - name: Install packages
+      apt:
+        name="{{ sambasvr_packages }}"
+        state=latest
+
     - name: Unset kerberos default realm
       lineinfile:
         path: /etc/krb5.conf
