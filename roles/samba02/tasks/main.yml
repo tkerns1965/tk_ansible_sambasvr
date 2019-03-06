@@ -87,23 +87,14 @@
         - '^(use_fully_qualified_names = True)$'
 
     - name: Reset sssd configuration settings
-      blockinfile:
+      lineinfile:
         path: /etc/sssd/sssd.conf
         insertafter: "{{ item.insertafter }}"
-        block: "{{ item.block }}"
+        line: "{{ item.line }}"
       with_items:
         - insertafter: '^# ldap_id_mapping = False$'
-          block: |
-            #
-            ldap_id_mapping = True
-            #
+          line: ldap_id_mapping = True
         - insertafter: '^# use_fully_qualified_names = True$'
-          block: |
-            #
-            use_fully_qualified_names = False
-            #
+          line: use_fully_qualified_names = False
         - insertafter: '^access_provider = ad$'
-          block: |
-            #
-            ldap_user_ssh_public_key = altSecurityIdentities
-            #
+          line: ldap_user_ssh_public_key = altSecurityIdentities
