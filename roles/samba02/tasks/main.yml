@@ -67,5 +67,5 @@
           - key: "(?i)password for {{ realm_user }}:"
             value: "{{ realm_passwd }}"
       expect:
-        command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
+        command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} --install=/
         responses: "{{ passwd_response | items2dict }}"
