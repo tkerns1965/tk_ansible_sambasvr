@@ -3,7 +3,7 @@
 For use on bare Ubuntu 18.04.2 Live Server
 
 1. sudo apt-add-repository -y ppa:ansible/ansible
-2. sudo apt install -y ansible
+2. sudo apt install -y ansible python-pexpect
 3. git clone https://github.com/tkerns1965/tk_ansible_sambasvr.git
 4. cd tk_ansible_sambasvr/
 5. cp roles/samba01/vars/private.yml.sample roles/samba01/vars/private.yml
