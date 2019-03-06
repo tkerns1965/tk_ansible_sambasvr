@@ -5,6 +5,7 @@ sambasvr_packages:
   - libnss-sss
   - libpam-sss
   - realmd
-  - samba-common-bin
+  - samba
+  # - samba-common-bin
   - sssd
   - sssd-tools
