@@ -62,4 +62,7 @@
       when: chkpam_result.stdout != "pam_mkhomedir.so"
 
     - name: Join the domain
-      command: realm join --verbose --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} 
+      expect:
+        command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
+        responses:
+          (?i)password for {{ realm_user }}: "{{ realm_passwd }}"
