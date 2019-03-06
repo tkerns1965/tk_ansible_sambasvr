@@ -67,5 +67,4 @@
           "(?i)password for {{ realm_user }}: {{ realm_passwd }}"
       expect:
         command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
-        responses:
-          "{{ passwd_response }}"
+        responses: "{{ passwd_response }}"
