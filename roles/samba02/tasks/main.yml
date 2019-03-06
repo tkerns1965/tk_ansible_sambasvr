@@ -61,6 +61,11 @@
       command: pam-auth-update --enable mkhomedir
       when: chkpam_result.stdout != "pam_mkhomedir.so"
 
+    - name: Check for domain
+      command: realm list --name-only
+      register: chkdomain_result
+      changed_when: False
+
     - name: Join the domain
       vars:
         passwd_response:
@@ -69,3 +74,4 @@
       expect:
         command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} --install=/
         responses: "{{ passwd_response | items2dict }}"
+      when: chkdomain_result.stdout != "{{ realm_domain }}"
