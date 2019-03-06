@@ -74,4 +74,4 @@
       expect:
         command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} --install=/
         responses: "{{ passwd_response | items2dict }}"
-      when: chkdomain_result.stdout != "{{ realm_domain }}"
+      when: chkdomain_result.stdout != realm_domain
