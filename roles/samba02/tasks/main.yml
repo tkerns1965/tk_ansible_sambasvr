@@ -5,7 +5,7 @@
 - name: Execute block as sudo
   vars:
     passwd_response:
-      (?i)password for "{{ realm_user }}": "{{ realm_passwd }}"
+      "(?i)password for {{ realm_user }}: {{ realm_passwd }}"
   become: yes
   block:
     - name: Install packages
