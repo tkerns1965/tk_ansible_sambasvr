@@ -3,6 +3,9 @@
   include_vars: private.yml
 
 - name: Execute block as sudo
+  vars:
+    passwd_response:
+      (?i)password for "{{ realm_user }}": "{{ realm_passwd }}"
   become: yes
   block:
     - name: Install packages
@@ -61,11 +64,11 @@
       command: pam-auth-update --enable mkhomedir
       when: chkpam_result.stdout != "pam_mkhomedir.so"
 
-    - name: Join the domain
-      vars:
-        passwd_response:
-          (?i)password for "{{ realm_user }}": "{{ realm_passwd }}"
-      expect:
-        command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
-        responses:
-          "{{ passwd_response }}"
+    - debug:
+        var: passwd_response
+
+    # - name: Join the domain
+    #   expect:
+    #     command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
+    #     responses:
+    #       "{{ passwd_response }}"
