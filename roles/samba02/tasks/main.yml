@@ -64,8 +64,8 @@
     - name: Join the domain
       vars:
         passwd_response:
-          key: "(?i)password for {{ realm_user }}:"
-          value: "{{ realm_passwd }}"
+          - key: "(?i)password for {{ realm_user }}:"
+            value: "{{ realm_passwd }}"
       expect:
         command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }}
         responses: "{{ passwd_response | items2dict }}"
