@@ -6,6 +6,6 @@ timesyncd_ntpsvr: dc.example.com
 realmd_realm: example.com
 
 realm_user: Administrator
-realm_passwd: Password!
 realm_ou: OU=Computers,OU=EXAMPLE,DC=example,DC=com
 realm_domain: example.com
+realm_passwd: Password!
