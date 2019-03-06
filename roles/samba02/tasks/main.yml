@@ -85,6 +85,7 @@
       with_items:
         - '^(ldap_id_mapping = False)$'
         - '^(use_fully_qualified_names = True)$'
+      register: unsetsssd_result
 
     - name: Reset sssd configuration settings
       lineinfile:
@@ -98,3 +99,8 @@
           line: use_fully_qualified_names = False
         - insertafter: '^access_provider = ad$'
           line: ldap_user_ssh_public_key = altSecurityIdentities
+      register: resetsssd_result
+
+    - name: Restart sssd
+      command: systemctl restart sssd.service
+      when: (unsetsssd_result is changed) and (resetsssd_result is changed)
