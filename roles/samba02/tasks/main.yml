@@ -75,3 +75,35 @@
         command: realm join --user={{ realm_user }} --computer-ou={{ realm_ou }} {{ realm_domain }} --install=/
         responses: "{{ passwd_response | items2dict }}"
       when: chkdomain_result.stdout != realm_domain
+
+    - name: Unset sssd configuration settings
+      lineinfile:
+        path: /etc/sssd/sssd.conf
+        regexp: "{{ item }}"
+        line: '# \1'
+        backrefs: yes
+      with_items:
+        - '^(ldap_id_mapping = False)$'
+        - '^(use_fully_qualified_names = True)$'
+
+    - name: Reset sssd configuration settings
+      blockinfile:
+        path: /etc/sssd/sssd.conf
+        insertafter: "{{ item.insertafter }}"
+        block: "{{ item.block }}"
+      with_items:
+        - insertafter: '^# ldap_id_mapping = False$'
+          block: |
+            #
+            ldap_id_mapping = True
+            #
+        - insertafter: '^# use_fully_qualified_names = True$'
+          block: |
+            #
+            use_fully_qualified_names = False
+            #
+        - insertafter: '^access_provider = ad$'
+          block: |
+            #
+            ldap_user_ssh_public_key = altSecurityIdentities
+            #
