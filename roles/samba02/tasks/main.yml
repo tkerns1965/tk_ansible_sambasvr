@@ -108,13 +108,10 @@
     - name: Create share directory
       file:
         path: /samba/share/
+        owner: root
+        group: sambashare
+        mode: 2775
         state: directory
-
-    # - name: Make copy of smb.conf
-    #   copy:
-    #     src: /etc/samba/smb.conf
-    #     remote_src: yes
-    #     dest: /etc/samba/smb.conf.original
 
     - name: Create smb.conf
       template:
