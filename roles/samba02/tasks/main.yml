@@ -103,4 +103,4 @@
 
     - name: Restart sssd
       command: systemctl restart sssd.service
-      when: (unsetsssd_result is changed) and (resetsssd_result is changed)
+      when: (unsetsssd_result is changed) or (resetsssd_result is changed)
