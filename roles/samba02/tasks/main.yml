@@ -104,3 +104,24 @@
     - name: Restart sssd
       command: systemctl restart sssd.service
       when: (unsetsssd_result is changed) or (resetsssd_result is changed)
+
+    - name: Create share folder
+      file:
+        path: /samba/share/
+
+    # - name: Make copy of smb.conf
+    #   copy:
+    #     src: /etc/samba/smb.conf
+    #     remote_src: yes
+    #     dest: /etc/samba/smb.conf.original
+
+    - name: Create smb.conf
+      template:
+        src: smb.conf
+        dest: /etc/samba/smb.conf
+        backup: yes
+      register: smbconf_result
+
+    - name: Restart smbd
+      command: systemctl restart smbd.service nmbd.service
+      when: smbconf_result is changed
