@@ -1,7 +1,7 @@
 ---
 krb5_default_realm: EXAMPLE.COM
 
-timesyncd_ntpsvr: dc.example.com
+timesyncd_ntpsvr: ntp.example.com
 
 realmd_realm: example.com
 
@@ -10,6 +10,5 @@ realm_ou: OU=Computers,OU=EXAMPLE,DC=example,DC=com
 realm_domain: example.com
 realm_passwd: Password!
 
-smbconf_pwdsvr: kerberos.example.com
 smbconf_realm: EXAMPLE.COM
 smbconf_wrkgrp: EXAMPLE
