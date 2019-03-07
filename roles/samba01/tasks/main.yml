@@ -12,9 +12,9 @@
         line: '\g<a>true'
         backrefs: yes
 
-    - name: "Set hostname to {{ sambasvr_hostname }}"
+    - name: "Set hostname to {{ sambasvr_hostname }}.{{ sambasvr_domain }}"
       hostname:
-        name: "{{ sambasvr_hostname }}"
+        name: "{{ sambasvr_hostname }}.{{ sambasvr_domain }}"
 
     - name: "Set timezone to {{ sambasvr_timezone }}"
       timezone:
