@@ -105,9 +105,10 @@
       command: systemctl restart sssd.service
       when: (unsetsssd_result is changed) or (resetsssd_result is changed)
 
-    - name: Create share folder
+    - name: Create share directory
       file:
         path: /samba/share/
+        state: directory
 
     # - name: Make copy of smb.conf
     #   copy:
